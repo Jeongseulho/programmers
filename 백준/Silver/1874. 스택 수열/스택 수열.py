@@ -1,7 +1,6 @@
 n = int(input())
 stack = []
 answer = []
-flag = 0
 cur = 1
 for i in range(n):
     num = int(input())
