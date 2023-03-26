@@ -5,12 +5,14 @@ def solution(N, stages):
         stageNum에_도달한_플레이어수 = len(stageNum에_도달한_플레이어)
         stageNum애_도달했으나_아직클리어못한_플레이어수 = stages.count(stageNum)
 
-        if stageNum애_도달했으나_아직클리어못한_플레이어수 == 0:
+        if stageNum에_도달한_플레이어수 == 0:
             실패율 = 0
         else:
             실패율 = stageNum애_도달했으나_아직클리어못한_플레이어수 / stageNum에_도달한_플레이어수
         각스테이지별_실패율[stageNum] = 실패율
 
+    print(각스테이지별_실패율)
     answer = {k: v for k, v in sorted(
         각스테이지별_실패율.items(), key=lambda item: (-item[1], item[0]))}
+    print(answer)
     return list(answer.keys())
