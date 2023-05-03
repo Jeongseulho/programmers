@@ -1,10 +1,7 @@
-from collections import deque
-
 def bfs():
-    needVisit = deque()
-    needVisit.append((0,0))
+    needVisit = [(0,0)]
     while needVisit:
-        ci, cj = needVisit.popleft()
+        ci, cj = needVisit.pop(0)
         for di, dj in ((-1,0),(1,0),(0,1),(0,-1)):
             ni, nj = ci + di, cj + dj
             if 0<=ni<N and 0<=nj<M and arr[ni][nj] == 1:
