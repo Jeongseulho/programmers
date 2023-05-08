@@ -1,37 +1,20 @@
-function permutation(arr, selectNum) {
-  let result = [];
-  if (selectNum === 1) return arr.map((v) => [v]);
+function solution(life, dungeons) {
+  const N = dungeons.length;
+  const visited = new Array(N).fill(0);
+  let ans = 0;
 
-  arr.forEach((v, idx, arr) => {
-    const fixer = v;
-    const restArr = arr.filter((_, index) => index !== idx);
-    const permuationArr = permutation(restArr, selectNum - 1);
-    const combineFixer = permuationArr.map((v) => [fixer, ...v]);
-    result.push(...combineFixer);
-  });
-  return result;
-}
+  function dfs(life, cnt) {
+    ans = Math.max(cnt, ans);
 
-function solution(k, dungeons) {
-  const totalDungeonsCnt = dungeons.length;
-  const numList = new Array(totalDungeonsCnt).fill(0).map((_, idx) => idx);
-  const orderCaseList = permutation(numList, totalDungeonsCnt);
-  let maxCnt = 0;
-
-  for (orderCase of orderCaseList) {
-    let myLife = k;
-    let cnt = 0;
-    for (order of orderCase) {
-      if (dungeons[order][0] <= myLife) {
-        myLife -= dungeons[order][1];
-        cnt++;
-        if (maxCnt < cnt) {
-          maxCnt = cnt;
-        }
+    for (let j = 0; j < N; j++) {
+      if (life >= dungeons[j][0] && !visited[j]) {
+        visited[j] = 1;
+        dfs(life - dungeons[j][1], cnt + 1);
+        visited[j] = 0;
       }
     }
   }
 
-  return maxCnt;
+  dfs(life, 0);
+  return ans;
 }
-
