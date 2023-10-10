@@ -23,7 +23,7 @@ def solution(user_id, banned_id):
         
         if idx == len(case):
             set_cur_set = set(cur_set)
-            if set_cur_set not in all_set and len(set_cur_set) == idx:
+            if set_cur_set not in all_set:
                 all_set.append(set_cur_set)
                 cnt += 1
             
