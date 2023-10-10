@@ -16,8 +16,6 @@ def solution(user_id, banned_id):
     all_set = []
     cnt = 0
     
-    print(case)
-    
     def recursive(idx, cur_set):
         nonlocal cnt
         
