@@ -3,32 +3,27 @@ function solution(bridge_length, weight, truck_weights) {
     let weightSum = 0;
     const maxWeight = weight;
     const waitTrucks = truck_weights;
-    const passTrucks = [];
+    const completeTrucks = [];
     let time = 0;
     
-    while(waitTrucks.length !== 0) {
-        const lastTruck = bridge.shift();
-        weightSum -= lastTruck;
-        bridge.push(0);
-        if (waitTrucks[0] + weightSum <= maxWeight) {
-            const firstTruck = waitTrucks.shift();
-            bridge[bridge_length - 1] = firstTruck;
-            weightSum += firstTruck;
+    while(waitTrucks.length) {
+        time++;
+        
+        bridge.unshift(0);
+        weightSum -= bridge.pop();
+        
+        if (((weightSum + waitTrucks[0]) <= maxWeight)) {
+            bridge[0] = waitTrucks.shift();
+            weightSum += bridge[0]
         }
         
-        time += 1;
     }
-    
-    let lastTruckIdx = -1;
-    for (let i = 0; i < bridge_length; i++) {
-        if (bridge[i] !== 0) {
-            lastTruckIdx = i;
+
+    for (let i = 0; i < bridge.length; i++) {
+        if (bridge[i] > 0) {
+            time += (bridge.length - i)
+            break;
         }
     }
-    
-    if (lastTruckIdx === -1) {
-        return time;
-    }
-    return time + lastTruckIdx + 1;
-    
+    return time;
 }
