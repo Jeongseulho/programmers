@@ -10,14 +10,13 @@ function solution(maps) {
     while(needVisit.length) {
         const [ci, cj, cnt] = needVisit.shift();
         if (ci === maxI && cj === maxJ) return cnt;
-        if (maps[ci][cj]) {
-            maps[ci][cj] = 0;
-            for (let i = 0; i < 4; i++) {
-                const ni = ci + di[i];
-                const nj = cj + dj[i];
-                if (0 <= ni && ni <= maxI && 0 <= nj && nj <= maxJ && maps[ni][nj]) {
-                    needVisit.push([ni, nj, cnt + 1]);
-                }
+
+        for (let i = 0; i < 4; i++) {
+            const ni = ci + di[i];
+            const nj = cj + dj[i];
+            if (0 <= ni && ni <= maxI && 0 <= nj && nj <= maxJ && maps[ni][nj]) {
+                needVisit.push([ni, nj, cnt + 1]);
+                maps[ni][nj] = 0;
             }
         }
     }
