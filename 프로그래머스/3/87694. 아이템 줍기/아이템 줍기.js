@@ -1,40 +1,39 @@
 function solution(rectangle, characterX, characterY, itemX, itemY) {
-    characterX *= 2;
-    characterY *= 2;
-    itemX *= 2;
-    itemY *= 2;
-    const doubleRec = rectangle.map((rec) => rec.map((point) => point * 2));
-    // 상, 하, 좌, 우
-    const dy = [-1, 1, 0, 0];
-    const dx = [0, 0, -1, 1];
+    const doubleRec = rectangle.map((posArr) => posArr.map((pos) => pos * 2));
+    const map = Array.from({length : 102}, () => new Array(102).fill(0));
     
-    const ground = Array.from({length : 102}, () => new Array(102).fill(0))
-    
-    doubleRec.forEach(([x1, y1, x2, y2]) => {
-        for (let i = x1; i <= x2; i++) {
-          for (let j = y1; j <= y2; j++) {
-            if (i === x1 || i === x2 || j === y1 || j === y2) {
-              if (ground[i][j] === 0) ground[i][j] = 1;
-            } else {
-              ground[i][j] = 2;
+    doubleRec.forEach(([sj, si, ej, ei]) => {
+        for (let i = si; i <= ei; i++) {
+            for (let j = sj; j <= ej; j++) {
+                if (i === si || i === ei || j === sj || j === ej) {
+                    if (map[i][j] === 0) map[i][j] = 1;
+                } else {
+                    map[i][j] = 2;
+                }
             }
-          }
         }
-    });
+    })
     
-    ground[characterX][characterY] = 0;
+    const initI = characterY * 2;
+    const initJ = characterX * 2;
+    const targetI = itemY * 2;
+    const targetJ = itemX * 2;
+    const needVisit = [[initI, initJ, 0]];
+    const di = [-1, 1, 0, 0];
+    const dj = [0, 0, -1, 1];
     
-    const needVisit = [[characterX, characterY, 0]]
-    while(needVisit.length !== 0) {
-        const [x, y, cnt] = needVisit.shift();
-        if(x === itemX && y === itemY) return cnt/2;
+    map[initI][initJ] = 0;
+    while (needVisit.length) {
+        const [ci, cj, cnt] = needVisit.shift();
         
-        for(let i = 0; i < 4; i++) {
-            const nx = dx[i] + x;
-            const ny = dy[i] + y;
-            if(ground[nx][ny] === 1) {
-                needVisit.push([nx, ny, cnt + 1]);
-                ground[nx][ny] = 0;
+        if (ci === targetI && cj === targetJ) return cnt / 2;
+        
+        for (let k = 0; k < 4; k++) {
+            const ni = ci + di[k];
+            const nj = cj + dj[k];
+            if (map[ni][nj] === 1) {
+                needVisit.push([ni, nj, cnt + 1]);
+                map[ni][nj] = 0;
             }
         }
     }
