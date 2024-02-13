@@ -1,63 +1,29 @@
-//전체코드
-let fs = require("fs");
-let input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
+const fs = require('fs');
+const input = fs.readFileSync('/dev/stdin').toString().trim().split('\n');
 
-let [size, ...arr] = input;
-let [row, col] = size.split(" ");
-arr = arr.map((i) => i.split(""));
-const answer = [];
+let [size, ...board] = input;
+const [N, M] = size.split(' ').map(Number);
+board = board.map((el) => el.split(''));
+const ans = [];
 
-//하얀색이 먼저 시작하는 판
-const white = [
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-];
-
-//검은색이 먼저 시작하는 판
-const black = [
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-  "BWBWBWBW",
-  "WBWBWBWB",
-];
-
-//하얀색이 먼저 시작하는 판과 비교하여 다르다면 count
-function whiteFirst(x, y) {
-  let count = 0;
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      if (arr[i + x][j + y] !== white[i][j]) count++;
+for (let si = 0; si < N - 7; si++) {
+  for (let sj = 0; sj < M - 7; sj++) {
+    let whiteStartCnt = 0;
+    let blackStartCnt = 0;
+    for (let ci = si; ci < si + 8; ci++) {
+      for (let cj = sj; cj < sj + 8; cj++) {
+        if ((ci + cj) % 2 === 0) {
+          if (board[ci][cj] === 'W') blackStartCnt++;
+          if (board[ci][cj] === 'B') whiteStartCnt++;
+        } else {
+          if (board[ci][cj] === 'W') whiteStartCnt++;
+          if (board[ci][cj] === 'B') blackStartCnt++;
+        }
+      }
     }
+    ans.push(whiteStartCnt);
+    ans.push(blackStartCnt);
   }
-  return count;
 }
 
-//검은색이 먼저 시작하는 판과 비교하여 다르다면 count
-function blackFirst(x, y) {
-  let count = 0;
-  for (let i = 0; i < 8; i++) {
-    for (let j = 0; j < 8; j++) {
-      if (arr[i + x][j + y] !== black[i][j]) count++;
-    }
-  }
-  return count;
-}
-
-//전체 판을 움직이는 형태로 작성했기에, -7을 해줌으로써 전체 판을 벗어나지 않게 해준다.
-for (let j = 0; j < row - 7; j++) {
-  for (let k = 0; k < col - 7; k++) {
-    answer.push(whiteFirst(j, k));
-    answer.push(blackFirst(j, k));
-  }
-}
-console.log(Math.min(...answer));
+console.log(Math.min(...ans));
