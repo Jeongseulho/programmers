@@ -1,12 +1,16 @@
-function getNodeCount(adjList) {
+const getNodeCount = (adjList) => {
     const visited = [];
     let needVisit = [1];
     
-    while (needVisit.length) {
+    while(needVisit.length) {
         const node = needVisit.pop();
-        if (!visited.includes(node)) {
-            visited.push(node);
-            needVisit = [...needVisit, ...adjList[node]]
+        const adjNodeList = adjList[node];
+        for(let i = 0; i < adjNodeList.length; i++) {
+            const adjNode = adjNodeList[i];
+            if(!visited.includes(adjNode)) {
+                needVisit.push(adjNode);
+                visited.push(adjNode);
+            }
         }
     }
     
