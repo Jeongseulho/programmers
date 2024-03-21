@@ -6,14 +6,11 @@ function solution(people, limit) {
     
     while (startIdx <= endIdx) {
         const sum = people[startIdx] + people[endIdx];
-        
         if (sum <= limit) {
             startIdx++;
         }
-        
         endIdx--;
         cnt++;
     }
-    
     return cnt;
 }
