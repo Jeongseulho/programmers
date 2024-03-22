@@ -1,9 +1,9 @@
-function solution(arr)
-{
-    let prev = arr.shift();
-    const ans = [prev];
-    for (const num of arr) {
-        if (ans[ans.length - 1] !== num) ans.push(num);
+function solution(arr) {
+    const ans = [arr[0]]
+    for (let i = 1; i < arr.length; i++) {
+        if (!(arr[i] === ans[ans.length - 1])) {
+            ans.push(arr[i]);
+        } 
     }
-    return ans
+    return ans;
 }
