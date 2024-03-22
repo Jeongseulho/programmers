@@ -1,12 +1,12 @@
-function getBrownCnt(yx, yy) {
-    return 4 + 2 * yy + 2 * yx
+const getBrownCnt = (yellowRow, yellowCol) => {
+    return (yellowCol + 2) * 2 + yellowRow * 2; 
 }
 
 function solution(brown, yellow) {
-    if (yellow === 1) return [ 3, 3 ]
-    for (let yy = 1; yy < Math.floor(yellow / 2) + 1; yy++) {
-        if (yellow % yy !== 0) continue;
-        const yx = yellow / yy
-        if (brown === getBrownCnt(yx, yy)) return [ yx + 2, yy + 2 ]
+    for (let yellowRow = 1; yellowRow <= yellow; yellowRow++) {
+        if (yellow % yellowRow === 0) {
+            const yellowCol = yellow / yellowRow;
+            if (getBrownCnt(yellowRow, yellowCol) === brown) return [yellowCol + 2, yellowRow + 2];
+        }
     }
 }
