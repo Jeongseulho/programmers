@@ -1,13 +1,11 @@
 function solution(sizes) {
-    const resizes = sizes.map((size) => size.sort((a, b) => a - b));
-    let maxW = 0;
-    let maxH = 0;
-    
-    for(const resize of resizes) {
-        const w = resize[0];
-        const h = resize[1];
-        maxW = Math.max(maxW, w);
-        maxH = Math.max(maxH, h);
+    const resizes = sizes.map((wallet) => wallet.sort((a, b) => a - b));
+    let maxRow = 0;
+    let maxCol = 0;
+    for (let i = 0; i < resizes.length; i++) {
+        maxRow = Math.max(maxRow, resizes[i][0]);
+        maxCol = Math.max(maxCol, resizes[i][1]);
     }
-    return maxW * maxH
+    return maxRow * maxCol;
 }
+
