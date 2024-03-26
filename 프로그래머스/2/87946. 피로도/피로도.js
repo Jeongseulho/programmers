@@ -1,21 +1,19 @@
 function solution(life, dungeons) {
-    const dungeonsCnt = dungeons.length
-    const visited = new Array(dungeonsCnt).fill(false);
+    const visited = new Array(dungeons.length).fill(false);
     let ans = 0;
-    
-    const dfs = (curLife, visitCnt) => {
-        ans = Math.max(ans, visitCnt);
-        
-        for(let i = 0; i < dungeonsCnt; i++) {
+    const dfs = (cnt, life) => {
+        ans = Math.max(ans, cnt);
+        for (let i = 0; i < dungeons.length; i++) {
             const leastLife = dungeons[i][0];
             const spendLife = dungeons[i][1];
-            if(!visited[i] && curLife >= leastLife) {
+            if (!visited[i] && life >= leastLife) {
                 visited[i] = true;
-                dfs(curLife - spendLife, visitCnt + 1);
+                dfs(cnt + 1, life - spendLife);
                 visited[i] = false;
             }
         }
     }
-    dfs(life, 0);
+    
+    dfs(0, life);
     return ans;
 }
