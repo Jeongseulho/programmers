@@ -1,8 +1,9 @@
 function solution(triangle) {
-    for (let i = triangle.length - 2; i > -1; i--) {
-        for (let j = 0; j < triangle[i].length; j++) {
-            triangle[i][j] += Math.max(triangle[i + 1][j + 1] ?? 0, triangle[i + 1][j] ?? 0) 
+    for (let i = triangle.length - 1; i > 0; i--) {
+        for (let j = 0; j < i + 1; j++) {
+            const maxSum = Math.max(triangle[i][j], triangle[i][j + 1])
+            triangle[i - 1][j] += maxSum;
         }
     }
-    return triangle[0][0]
+    return triangle[0][0];
 }
