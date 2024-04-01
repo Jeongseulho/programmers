@@ -1,21 +1,18 @@
 function solution(word) {
     let ans = 0;
-    const alphabet = ['A', 'E', 'I', 'O', 'U'];
-    let isFindAns = 0;
     let cnt = 0;
-    
-    const dfs = (str) => {
-        if(str.length > 5 || isFindAns) return;
-        if(str === word) {
-            isFindAns = true;
-            ans = cnt;
-            return;
+    let isFindAns = false;
+    const alphabet = ['A', 'E', 'I', 'O', 'U'];
+    const dfs = (subWord) => {
+        if (isFindAns || subWord.length > 5) return;
+        if (subWord === word) {
+            return ans = cnt;
         }
-        cnt ++;
-        for(let i = 0; i < alphabet.length; i++) {
-            dfs(str + alphabet[i]);
+        cnt += 1;
+        for (let i = 0; i < 5; i++) {
+            dfs(subWord + alphabet[i]);
         }
-    }    
+    }
     dfs('');
     return ans;
 }
