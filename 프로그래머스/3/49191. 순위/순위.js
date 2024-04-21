@@ -1,31 +1,34 @@
-const getCnt = (startNode, n, graph, winToOrLoseTo) => {
-    const needVisit = [startNode];
-    const visited = new Array(n + 1).fill(false);
-    visited[startNode] = true;
-    
-    while (needVisit.length) {
-        const node = needVisit.pop();
-        graph[node][winToOrLoseTo].forEach((adjNode) => {
-            if (!visited[adjNode]) {
-                needVisit.push(adjNode);
-                visited[adjNode] = true;
-            }
-        })
-    }
-    return visited.filter((node) => node).length - 1;
-}
-
 function solution(n, results) {
-    let ans = 0;
-    const graph = Array.from({length : n + 1}, () => ({ winTo : [], loseTo : []}));
+    const winnnerAdjList = Array.from({ length : n + 1 }, () => []);
+    const loserAdjList = Array.from({ length : n + 1 }, () => []);
     results.forEach(([winner, loser]) => {
-        graph[winner].winTo.push(loser);
-        graph[loser].loseTo.push(winner);
+        winnnerAdjList[winner].push(loser);
+        loserAdjList[loser].push(winner);
     })
-    for (let i = 1; i < n + 1; i++) {
-        const winnerCnt = getCnt(i, n, graph, "winTo");
-        const loserCnt = getCnt(i, n, graph, "loseTo");
-        if (winnerCnt + loserCnt === n - 1) ans++;
+    
+    const getCnt = (winOrLose, start) => {
+        const adjList = winOrLose === 'win' ? loserAdjList : winnnerAdjList;
+        const visited = [];
+        const needVisit = [start]
+        
+        while(needVisit.length) {
+            const person = needVisit.pop();
+            adjList[person].forEach((adjPerson) => {
+                if(!visited.includes(adjPerson)) {
+                    needVisit.push(adjPerson);
+                    visited.push(adjPerson);
+                }
+            })
+        }
+        return visited.length;
     }
+    
+    let ans = 0;
+    for(let person = 1; person <= n; person++) {
+        const winCnt = getCnt('win', person)
+        const loseCnt = getCnt('lose', person)
+        if(winCnt + loseCnt === n - 1) ans += 1;
+    }
+    
     return ans;
 }
