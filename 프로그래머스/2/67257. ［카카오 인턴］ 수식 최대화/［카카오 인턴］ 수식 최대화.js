@@ -1,60 +1,44 @@
 const solution = (expression) => {
-  const arr = [
-    ["+", "-", "*"],
-    ["+", "*", "-"],
-    ["-", "+", "*"],
-    ["-", "*", "+"],
-    ["*", "+", "-"],
-    ["*", "-", "+"],
-  ];
-
-  //1. 수식을 숫자(num)과 기호(sign)으로 나눈다.
-  let num = expression.split(/[^0-9]/);
-  num = num.map((it) => {
-    return parseInt(it);
-  });
-  const sign = [];
-  for (let i = 0; i < expression.length; i++) {
-    if (
-      expression[i] === "*" ||
-      expression[i] === "+" ||
-      expression[i] === "-"
-    ) {
-      sign.push(expression[i]);
+    let ans = 0;
+    const allCase = [];
+    const permutation = (perm, rests, n) => {
+        if(perm.length === n) return allCase.push(perm);
+        rests.forEach((ele, idx) => {
+            permutation([...perm, ele], rests.filter((_, idx2) => idx2 !== idx), n);
+        })
     }
-  }
-
-  let maxNum = 0;
-  for (let i = 0; i < arr.length; i++) {
-    //2. 배열과 수식을 복사한다.
-    const copyNum = num.slice();
-    const copySign = sign.slice();
-    for (let j = 0; j < arr[i].length; j++) {
-      for (let k = 0; k < copySign.length; k++) {
-        if (copySign[k] === arr[i][j]) {
-          if (copySign[k] === "*") {
-            copyNum[k] *= copyNum[k + 1];
-            copyNum.splice(k + 1, 1);
-            copySign.splice(k, 1);
-            k--;
-          } else if (copySign[k] === "+") {
-            copyNum[k] += copyNum[k + 1];
-            copyNum.splice(k + 1, 1);
-            copySign.splice(k, 1);
-            k--;
-          } else {
-            copyNum[k] -= copyNum[k + 1];
-            copyNum.splice(k + 1, 1);
-            copySign.splice(k, 1);
-            k--;
-          }
+    permutation([], ['-', '+', '*'], 3);
+    
+const calRes = (priority, nums, signs) => {
+    for (let i = 0; i < 3; i++) {
+        let signIdx = 0;
+        while (signIdx < signs.length) {
+            if (signs[signIdx] === priority[i]) {
+                switch (signs[signIdx]) {
+                    case '+':
+                        nums[signIdx] += nums[signIdx + 1];
+                        break;
+                    case '-':
+                        nums[signIdx] -= nums[signIdx + 1];
+                        break;
+                    case '*':
+                        nums[signIdx] *= nums[signIdx + 1];
+                        break;
+                }
+                nums.splice(signIdx + 1, 1);
+                signs.splice(signIdx, 1);
+            } else signIdx++;
         }
-      }
     }
-    //3. 계산후에 최댓값과 비교하여 최댓값을 찾는다.
-    if (Math.abs(copyNum[0]) >= maxNum) {
-      maxNum = Math.abs(copyNum[0]);
+    return Math.abs(Number(nums[0]));
+}
+    
+    const nums = expression.split(/[^0-9]/);
+    const signs = expression.split(/[0-9]/).filter(Boolean);
+    for(const priority of allCase) {
+        const res = calRes(priority, nums.map(Number), [...signs])
+        ans = Math.max(res, ans);
     }
-  }
-  return maxNum;
+    
+    return ans;
 };
