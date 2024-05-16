@@ -1,16 +1,18 @@
 function solution(people, limit) {
     people.sort((a, b) => a - b);
-    let startIdx = 0;
-    let endIdx = people.length - 1;
-    let cnt = 0;
-    
-    while (startIdx <= endIdx) {
-        const sum = people[startIdx] + people[endIdx];
-        if (sum <= limit) {
-            startIdx++;
+    let l = 0;
+    let r = people.length - 1;
+    let ans = 0;
+    while(l <= r) {
+        const weightSum = people[l] + people[r];
+        if(weightSum > limit) {
+            r--;
+            ans++;
+        } else {
+            l++;
+            r--;
+            ans++;
         }
-        endIdx--;
-        cnt++;
     }
-    return cnt;
+    return ans;
 }
