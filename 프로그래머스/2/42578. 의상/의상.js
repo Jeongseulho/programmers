@@ -1,11 +1,9 @@
 function solution(clothes) {
-    const clothCnt = {};
-    for (const [ _, category ] of clothes) {
-        if (category in clothCnt) clothCnt[category] += 1;
-        else clothCnt[category] = 2;
+    const clothesCnt = {};
+    for(const [_, type] of clothes) {
+        if(type in clothesCnt) clothesCnt[type] += 1;
+        else clothesCnt[type] = 2;
     }
-    
-    console.log(clothCnt)
-    return Object.values(clothCnt).reduce((acc, cur) => acc * cur, 1) - 1;
+    return Object.values(clothesCnt).reduce((acc, cur) => acc * cur, 1) - 1;
 }
 
