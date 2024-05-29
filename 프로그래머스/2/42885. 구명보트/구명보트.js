@@ -1,18 +1,18 @@
 function solution(people, limit) {
     people.sort((a, b) => a - b);
-    let l = 0;
-    let r = people.length - 1;
-    let ans = 0;
+    let [l, r] = [0, people.length - 1];
+    let boatCnt = 0;
     while(l <= r) {
-        const weightSum = people[l] + people[r];
-        if(weightSum > limit) {
-            r--;
-            ans++;
+        const small = people[l];
+        const big = people[r];
+        if(small + big <= limit) {
+            l += 1;
+            r -= 1;
         } else {
-            l++;
-            r--;
-            ans++;
-        }
+            r -= 1;
+        } 
+        boatCnt += 1;
     }
-    return ans;
+    
+    return boatCnt;
 }
