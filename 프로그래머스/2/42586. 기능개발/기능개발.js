@@ -1,19 +1,17 @@
 function solution(progresses, speeds) {
+    const completeDays = progresses.map((progress, idx) => Math.ceil((100 - progress) / speeds[idx]));
     const ans = [];
-    let checkIdx = 0;
-    while(progresses.some((progress) => progress < 100)) {
-        for(let i = 0; i < progresses.length; i++) progresses[i] += speeds[i];
-        
-        let cnt = 0;
-        for(let j = checkIdx; j < progresses.length; j++) {
-            if(progresses[j] >= 100) cnt += 1;
-            else {
-                checkIdx = j;
-                break;
-            }
+    let prev = completeDays[0];
+    let cnt = 1;
+    for(let i = 1; i < completeDays.length; i++) {
+        if(prev >= completeDays[i]) cnt += 1;
+        else {
+            ans.push(cnt);
+            cnt = 1;
+            prev = completeDays[i];
         }
-        
-        if(cnt !== 0) ans.push(cnt);
     }
+    ans.push(cnt);
+    
     return ans;
 }
