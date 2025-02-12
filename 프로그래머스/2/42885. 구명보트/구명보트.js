@@ -2,7 +2,7 @@ function solution(people, limit) {
     people.sort((a, b) => a - b);
     let [l, r] = [0, people.length - 1];
     let boatCnt = 0;
-    while(l < r) {
+    while(l <= r) {
         const small = people[l];
         const big = people[r];
         if(small + big <= limit) {
@@ -13,8 +13,6 @@ function solution(people, limit) {
         } 
         boatCnt += 1;
     }
-    
-    if(l === r) boatCnt += 1;
     
     return boatCnt;
 }
