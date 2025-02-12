@@ -1,12 +1,11 @@
 function solution(numbers) {
     const ans = new Set();
-    const combination = (comb, rests, output, n) => {
-        if (comb.length == n) return output.add(comb.reduce((acc, cur) => acc + cur, 0));
-        rests.forEach((item, idx) => {
-            combination([...comb, item], rests.slice(idx + 1), output, n);
-        });
-    };
-    combination([], numbers, ans, 2);
+    for(let i = 0; i < numbers.length; i++) {
+        const sum = numbers[i];
+        for(let j = i + 1; j < numbers.length; j++) {
+            ans.add(sum + numbers[j]);
+        }
+    }
     
-    return [...ans].sort((a, b) => a - b);
+    return Array.from(ans).sort((a, b) => a - b);
 }
